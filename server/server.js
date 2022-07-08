@@ -13,6 +13,6 @@ con.connect((err) => {
   routes(app, con);
 });
 
-app.listen(1234, () => {
+app.listen(3000, () => {
   console.log("Server started");
 });

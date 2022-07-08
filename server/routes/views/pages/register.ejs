@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="/css/style.css" type="text/css">
+<body class="container">
+
+<header>
+  <%- include ("../partials/header"); %>
+</header>
+
+<main>
+    <form action="/register" method="post">
+        <div class="form-box">
+          <div class="container">
+            <label for="uname"><b>ID</b></label>
+            <input type="text" placeholder="Enter your unique ID " name="id" required>  
+            <label for="uname"><b>First name</b></label>
+            <input type="text" placeholder="" name="firstname" required>  
+            <label for="uname"><b>Last name</b></label>
+            <input type="text" placeholder=" " name="lastname" required>  
+            <label for="uname"><b>Username</b></label>
+            <input type="text" placeholder="" name="username" required>  
+            <label for="psw"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="password" required>  
+            <label for="uname"><b>Address</b></label>
+            <input type="text" placeholder="" name="address" required> 
+            <label for="uname"><b>Mobile Number</b></label>
+            <input type="text" placeholder=" " name="mobileno" required>   
+            <button type="submit">Signup</button>
+
+    </div>
+  </div>
+</form>
+</main>
+</body>
+</html>
