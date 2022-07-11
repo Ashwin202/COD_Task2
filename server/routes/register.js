@@ -19,7 +19,6 @@ module.exports = (app, con) => {
     let hashpassword = bcrypt.hashSync(password, 10);
     con.query(`SELECT * FROM employee WHERE id = "${id}";`, (erro, result) => {
       if (result.length > 0) {
-        // console.log(result[0].length);
         res.status(200).json({ status: "User present" });
       } else {
         con.query(
@@ -27,15 +26,12 @@ module.exports = (app, con) => {
                       values('${id}','${username}','${hashpassword}','${firstname}','${lastname}','${address}','${mobileno}')`,
           (err) => {
             console.log("try3 " + tempLocation);
-            // if (!err) res.render(path.join(tempLocation, "pages/welcome.ejs"));
             if (err) {
               console.log(err);
-              res
-                .status(200)
-                .json({
-                  status:
-                    "Sign up isssue, Check whether you have an account or not",
-                }); //duplicate key
+              res.status(200).json({
+                status:
+                  "Sign up isssue, Check whether you have an account or not",
+              }); //duplicate key
             } else {
               console.log("success");
               res.render(path.join(tempLocation, "pages/welcome.ejs"));
