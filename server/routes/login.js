@@ -13,21 +13,8 @@ var urlParser = bodyParser.urlencoded(); //to parse json
 let temp = path.join(__dirname, "views");
 
 module.exports = (app, con) => {
-  // app.use(
-  //   session({
-  //     key: "userID",
-  //     secret: "codeofduty",
-  //     resave: false,
-  //     saveUninitialized: false,
-  //     // Cookie: {
-  //     //   expires: 60 * 60 * 24,
-  //     // },
-  //   })
-  // );
   router.post("/login", urlParser, (req, res) => {
     var username = req.body.username;
-    console.log("try " + username);
-    console.log("try " + req.body.password);
 
     con.query(
       `select username,password from employee where username="${req.body.username}"`,
@@ -36,12 +23,22 @@ module.exports = (app, con) => {
         if (result.length == 0)
           return res.status(500).json({ Status: "Not a user" });
         if (bcrypt.compareSync(req.body.password, result[0].password)) {
+          const user_id = result[0].username;
+          // console.log("user details " + JSON.stringify(result[0].username));
+          // console.log(result[0]);
+
+          req.login(user_id, (err) => {
+            // login session will create a cookie and session for the user
+            if (err) {
+              res.status(200).json({ Status: "user_id login error" });
+            }
+          }); //login function will be on passport
           // if (result[0].password == req.body.password) without bcrypt
           // return res.status(200).json({ Status: "login successfull" }); with bcrypt
-          req.session.loggedin = true;
-          req.session.username = username;
-          const user_id = username;
-          console.log(req.session.username);
+          // req.session.loggedin = true;
+          // req.session.username = username;
+
+          // console.log(req.session.username);
           res.render(path.join(temp, "pages/welcome.ejs"));
         } else {
           res.redirect("/login");
@@ -51,22 +48,12 @@ module.exports = (app, con) => {
     );
   });
 
-  passport.serializeUser(function (user_id, done) {
-    done(null, user_id);
-  });
-
-  passport.deserializeUser(function (user_id, done) {
-    {
-      done(null, user_id);
-    }
-  });
-
   // router.get("/login", (req, res) => {
   //   res.render(path.join(temp, "pages/index"));
   // });
 
   router.get("/login", (req, res) => {
-    console.log(req.session.loggedin);
+    // console.log("login status" + req.session.loggedin);
     if (req.session.loggedin) {
       //   // Output username
       res.render(path.join(temp, "pages/welcome.ejs"));
