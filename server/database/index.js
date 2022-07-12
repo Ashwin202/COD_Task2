@@ -5,6 +5,7 @@ let con = mysql.createConnection({
   user: "root",
   password: "10As2000*",
   database: "employer",
+  multipleStatements: true,
 });
 
 module.exports = con;
